@@ -1,0 +1,35 @@
+{
+  "id": "default",
+  "name": "Default",
+  "description": "Mermaid 默认主题风格，暖色调",
+  "tags": ["light", "warm", "official"],
+  "styles": {
+    "light": {
+      "background": "#f4f4f4",
+      "primaryColor": "#fff4dd",
+      "secondaryColor": "#ffffde",
+      "tertiaryColor": "#fff4dd",
+      "primaryTextColor": "#333333",
+      "textColor": "#333333",
+      "lineColor": "#333333",
+      "fontFamily": "trebuchet ms, verdana, arial",
+      "fontSize": "16px",
+      "noteBkgColor": "#fff5ad",
+      "noteTextColor": "#333333"
+    },
+    "dark": {
+      "darkMode": true,
+      "background": "#1f2020",
+      "primaryColor": "#1f2020",
+      "secondaryColor": "#323232",
+      "tertiaryColor": "#323232",
+      "primaryTextColor": "#cdd5de",
+      "textColor": "#cdd5de",
+      "lineColor": "#cdd5de",
+      "fontFamily": "trebuchet ms, verdana, arial",
+      "fontSize": "16px",
+      "noteBkgColor": "#404040",
+      "noteTextColor": "#cdd5de"
+    }
+  }
+}

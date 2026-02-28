@@ -1,0 +1,37 @@
+{
+  "id": "ocean",
+  "name": "Ocean",
+  "description": "清新海洋蓝主题",
+  "tags": ["blue", "ocean", "cool"],
+  "styles": {
+    "light": {
+      "background": "#f0f8ff",
+      "primaryColor": "#b3d9ff",
+      "secondaryColor": "#d6eaff",
+      "tertiaryColor": "#cce5ff",
+      "primaryTextColor": "#003366",
+      "textColor": "#003366",
+      "lineColor": "#0066cc",
+      "fontFamily": "trebuchet ms, verdana, arial",
+      "fontSize": "16px",
+      "noteBkgColor": "#e0f0ff",
+      "noteTextColor": "#003366",
+      "clusterBkg": "#cce5ff"
+    },
+    "dark": {
+      "darkMode": true,
+      "background": "#001a33",
+      "primaryColor": "#003366",
+      "secondaryColor": "#004080",
+      "tertiaryColor": "#003366",
+      "primaryTextColor": "#99ccff",
+      "textColor": "#99ccff",
+      "lineColor": "#4499cc",
+      "fontFamily": "trebuchet ms, verdana, arial",
+      "fontSize": "16px",
+      "noteBkgColor": "#002244",
+      "noteTextColor": "#99ccff",
+      "clusterBkg": "#002244"
+    }
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "id": "neutral",
+  "name": "Neutral",
+  "description": "中性灰度主题，适合黑白打印",
+  "tags": ["gray", "print", "official"],
+  "styles": {
+    "light": {
+      "background": "#ffffff",
+      "primaryColor": "#eeeee0",
+      "secondaryColor": "#ffffde",
+      "tertiaryColor": "#eeeeee",
+      "primaryTextColor": "#000000",
+      "textColor": "#333333",
+      "lineColor": "#666666",
+      "fontFamily": "trebuchet ms, verdana, arial",
+      "fontSize": "16px",
+      "noteBkgColor": "#fff5ad",
+      "noteTextColor": "#333333"
+    },
+    "dark": {
+      "darkMode": true,
+      "background": "#333333",
+      "primaryColor": "#4a4a4a",
+      "secondaryColor": "#555555",
+      "tertiaryColor": "#4a4a4a",
+      "primaryTextColor": "#eeeeee",
+      "textColor": "#eeeeee",
+      "lineColor": "#bbbbbb",
+      "fontFamily": "trebuchet ms, verdana, arial",
+      "fontSize": "16px",
+      "noteBkgColor": "#555555",
+      "noteTextColor": "#eeeeee"
+    }
+  }
+}

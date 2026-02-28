@@ -1,0 +1,35 @@
+{
+  "id": "sunset",
+  "name": "Sunset",
+  "description": "暖色夕阳主题，橙红渐变",
+  "tags": ["warm", "orange", "sunset"],
+  "styles": {
+    "light": {
+      "background": "#fff8f0",
+      "primaryColor": "#ffd4a8",
+      "secondaryColor": "#ffe8cc",
+      "tertiaryColor": "#ffccaa",
+      "primaryTextColor": "#4a1a00",
+      "textColor": "#4a1a00",
+      "lineColor": "#cc4400",
+      "fontFamily": "trebuchet ms, verdana, arial",
+      "fontSize": "16px",
+      "noteBkgColor": "#fff0cc",
+      "noteTextColor": "#4a1a00"
+    },
+    "dark": {
+      "darkMode": true,
+      "background": "#1a0a00",
+      "primaryColor": "#4a1a00",
+      "secondaryColor": "#662200",
+      "tertiaryColor": "#4a1a00",
+      "primaryTextColor": "#ffccaa",
+      "textColor": "#ffccaa",
+      "lineColor": "#ff8844",
+      "fontFamily": "trebuchet ms, verdana, arial",
+      "fontSize": "16px",
+      "noteBkgColor": "#331100",
+      "noteTextColor": "#ffccaa"
+    }
+  }
+}

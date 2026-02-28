@@ -1,0 +1,35 @@
+{
+  "id": "forest",
+  "name": "Forest",
+  "description": "绿色森林主题",
+  "tags": ["green", "nature", "official"],
+  "styles": {
+    "light": {
+      "background": "#f4f4f4",
+      "primaryColor": "#cde498",
+      "secondaryColor": "#cdffb2",
+      "tertiaryColor": "#cde498",
+      "primaryTextColor": "#000000",
+      "textColor": "#000000",
+      "lineColor": "#000000",
+      "fontFamily": "trebuchet ms, verdana, arial",
+      "fontSize": "16px",
+      "noteBkgColor": "#fff5ad",
+      "noteTextColor": "#333333"
+    },
+    "dark": {
+      "darkMode": true,
+      "background": "#1a1a1a",
+      "primaryColor": "#2d4a2d",
+      "secondaryColor": "#1e3a1e",
+      "tertiaryColor": "#2d4a2d",
+      "primaryTextColor": "#cceecc",
+      "textColor": "#cceecc",
+      "lineColor": "#88bb88",
+      "fontFamily": "trebuchet ms, verdana, arial",
+      "fontSize": "16px",
+      "noteBkgColor": "#2a3a2a",
+      "noteTextColor": "#cceecc"
+    }
+  }
+}
