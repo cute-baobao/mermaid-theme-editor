@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from "react"
 import { Search, Shuffle, ChevronRight } from "lucide-react"
+import { useTranslations } from "next-intl"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -17,6 +18,7 @@ interface PresetPanelProps {
 export function PresetPanel({ presets }: PresetPanelProps) {
   const [search, setSearch] = useState("")
   const { currentPresetId, setPreset } = useEditorStore()
+  const t = useTranslations("preset")
 
   const filtered = useMemo(() => {
     if (!search.trim()) return presets
@@ -29,7 +31,6 @@ export function PresetPanel({ presets }: PresetPanelProps) {
     )
   }, [presets, search])
 
-  // Group by author: built-in (no author) vs community (has author)
   const builtIn = filtered.filter((p) => !p.author)
   const community = filtered.filter((p) => !!p.author)
 
@@ -45,24 +46,23 @@ export function PresetPanel({ presets }: PresetPanelProps) {
         <div className="relative flex-1">
           <Search className="absolute left-2.5 top-2.5 size-3.5 text-muted-foreground" />
           <Input
-            placeholder="搜索预设..."
+            placeholder={t("searchPlaceholder")}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="pl-8 h-8 text-sm"
           />
         </div>
-        <Button variant="outline" size="icon" className="size-8 shrink-0" onClick={handleRandom}>
+        <Button variant="outline" size="icon" className="size-8 shrink-0" onClick={handleRandom} title={t("random")}>
           <Shuffle className="size-3.5" />
         </Button>
       </div>
 
       <ScrollArea className="flex-1">
         <div className="px-3 pb-4 space-y-4">
-          {/* Built-in presets */}
           {builtIn.length > 0 && (
             <section>
               <h3 className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-2">
-                内置主题
+                {t("builtIn")}
               </h3>
               <div className="space-y-1">
                 {builtIn.map((preset) => (
@@ -71,17 +71,17 @@ export function PresetPanel({ presets }: PresetPanelProps) {
                     preset={preset}
                     isActive={preset.id === currentPresetId}
                     onSelect={() => setPreset(preset)}
+                    currentLabel={t("current")}
                   />
                 ))}
               </div>
             </section>
           )}
 
-          {/* Community presets */}
           {community.length > 0 && (
             <section>
               <h3 className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-2">
-                社区主题
+                {t("community")}
               </h3>
               <div className="space-y-1">
                 {community.map((preset) => (
@@ -90,6 +90,7 @@ export function PresetPanel({ presets }: PresetPanelProps) {
                     preset={preset}
                     isActive={preset.id === currentPresetId}
                     onSelect={() => setPreset(preset)}
+                    currentLabel={t("current")}
                   />
                 ))}
               </div>
@@ -98,18 +99,17 @@ export function PresetPanel({ presets }: PresetPanelProps) {
 
           {filtered.length === 0 && (
             <p className="text-sm text-muted-foreground text-center py-8">
-              没有找到匹配的主题
+              {t("noResults")}
             </p>
           )}
 
-          {/* Contribute CTA */}
           <a
             href="https://github.com/your-repo/mermaid-theme-editor/blob/main/CONTRIBUTING.md"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-2 p-3 rounded-lg border border-dashed text-sm text-muted-foreground hover:text-foreground hover:border-border transition-colors"
           >
-            <span className="flex-1">提交你的主题 →</span>
+            <span className="flex-1">{t("contribute")}</span>
             <ChevronRight className="size-4" />
           </a>
         </div>
@@ -122,11 +122,13 @@ function PresetCard({
   preset,
   isActive,
   onSelect,
+  currentLabel,
 }: {
   preset: ThemePreset
   isActive: boolean
   onSelect: () => void
-}) {
+  currentLabel: string
+}){
   const lightBg = preset.styles.light.background ?? "#f4f4f4"
   const lightPrimary = preset.styles.light.primaryColor ?? "#fff4dd"
   const lightLine = preset.styles.light.lineColor ?? "#333333"
@@ -156,10 +158,10 @@ function PresetCard({
         <div className="flex items-center gap-1.5">
           <span className="text-sm font-medium truncate">{preset.name}</span>
           {isActive && (
-            <Badge variant="secondary" className="text-xs h-4 px-1">
-              当前
-            </Badge>
-          )}
+                <Badge variant="secondary" className="text-xs h-4 px-1">
+                  {currentLabel}
+                </Badge>
+              )}
         </div>
         {preset.description && (
           <p className="text-xs text-muted-foreground truncate">{preset.description}</p>

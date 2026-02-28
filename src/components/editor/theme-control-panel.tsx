@@ -2,13 +2,13 @@
 
 import { useState } from "react"
 import { HexColorPicker } from "react-colorful"
+import { useTranslations } from "next-intl"
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion"
-import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import {
@@ -34,6 +34,7 @@ export function ThemeControlPanel() {
   const { getCurrentTheme, setThemeVar, showAdvanced, setShowAdvanced } =
     useEditorStore()
   const theme = getCurrentTheme()
+  const t = useTranslations("control")
 
   const visibleGroups = THEME_PROPERTY_GROUPS.map((group) => ({
     ...group,
@@ -44,7 +45,7 @@ export function ThemeControlPanel() {
     <div className="flex flex-col h-full">
       {/* Advanced toggle */}
       <div className="flex items-center justify-between px-3 py-2 border-b shrink-0">
-        <span className="text-xs text-muted-foreground">显示高级属性</span>
+        <span className="text-xs text-muted-foreground">{t("showAdvanced")}</span>
         <Switch
           checked={showAdvanced}
           onCheckedChange={setShowAdvanced}
@@ -59,7 +60,7 @@ export function ThemeControlPanel() {
               <AccordionItem key={group.id} value={group.id} className="border-b">
                 <AccordionTrigger className="text-sm font-medium py-3 hover:no-underline">
                   <div className="flex items-center gap-2">
-                    <span>{group.label}</span>
+                    <span>{t(`groups.${group.id}`)}</span>
                     <span className="text-xs text-muted-foreground font-normal">
                       ({group.properties.length})
                     </span>
@@ -71,6 +72,7 @@ export function ThemeControlPanel() {
                       <PropertyControl
                         key={prop.key}
                         prop={prop}
+                        label={t(`props.${prop.key}`)}
                         value={theme[prop.key]}
                         onChange={(val) => setThemeVar(prop.key, val)}
                       />
@@ -88,21 +90,22 @@ export function ThemeControlPanel() {
 
 interface PropertyControlProps {
   prop: ThemePropertyDef
+  label: string
   value: MermaidThemeVars[keyof MermaidThemeVars]
   onChange: (val: string | boolean) => void
 }
 
-function PropertyControl({ prop, value, onChange }: PropertyControlProps) {
+function PropertyControl({ prop, label, value, onChange }: PropertyControlProps) {
   const strValue = value !== undefined ? String(value) : ""
 
   if (prop.type === "color") {
-    return <ColorControl prop={prop} value={strValue} onChange={onChange} />
+    return <ColorControl prop={prop} label={label} value={strValue} onChange={onChange} />
   }
 
   if (prop.type === "font-family") {
     return (
       <div className="space-y-1.5">
-        <Label className="text-xs">{prop.label}</Label>
+        <Label className="text-xs">{label}</Label>
         <Select value={strValue} onValueChange={onChange}>
           <SelectTrigger className="h-8 text-xs">
             <SelectValue />
@@ -122,7 +125,7 @@ function PropertyControl({ prop, value, onChange }: PropertyControlProps) {
   if (prop.type === "font-size") {
     return (
       <div className="space-y-1.5">
-        <Label className="text-xs">{prop.label}</Label>
+        <Label className="text-xs">{label}</Label>
         <Input
           value={strValue}
           onChange={(e) => onChange(e.target.value)}
@@ -135,7 +138,7 @@ function PropertyControl({ prop, value, onChange }: PropertyControlProps) {
 
   return (
     <div className="space-y-1.5">
-      <Label className="text-xs">{prop.label}</Label>
+      <Label className="text-xs">{label}</Label>
       <Input
         value={strValue}
         onChange={(e) => onChange(e.target.value)}
@@ -147,10 +150,12 @@ function PropertyControl({ prop, value, onChange }: PropertyControlProps) {
 
 function ColorControl({
   prop,
+  label,
   value,
   onChange,
 }: {
   prop: ThemePropertyDef
+  label: string
   value: string
   onChange: (val: string) => void
 }) {
@@ -163,7 +168,6 @@ function ColorControl({
 
   const handleInputChange = (raw: string) => {
     setLocalHex(raw)
-    // Only propagate valid hex values
     if (/^#[0-9a-fA-F]{6}$/.test(raw)) {
       onChange(raw)
     }
@@ -181,12 +185,12 @@ function ColorControl({
               "hover:border-primary transition-colors"
             )}
             style={{ backgroundColor: displayColor }}
-            title={prop.label}
+            title={label}
           />
         </PopoverTrigger>
         <PopoverContent className="w-auto p-3" align="start">
           <div className="space-y-2">
-            <p className="text-xs font-medium">{prop.label}</p>
+            <p className="text-xs font-medium">{label}</p>
             {prop.description && (
               <p className="text-xs text-muted-foreground max-w-48">{prop.description}</p>
             )}
@@ -206,7 +210,7 @@ function ColorControl({
       </Popover>
 
       <div className="flex-1 min-w-0">
-        <Label className="text-xs truncate block">{prop.label}</Label>
+        <Label className="text-xs truncate block">{label}</Label>
         <Input
           value={value || ""}
           onChange={(e) => {
@@ -220,3 +224,4 @@ function ColorControl({
     </div>
   )
 }
+

@@ -2,6 +2,7 @@
 
 import dynamic from "next/dynamic"
 import { useEffect, useRef, useState, useCallback } from "react"
+import { useTranslations } from "next-intl"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useEditorStore } from "@/store/editor-store"
 import { parseThemeFromHash } from "@/lib/share-url"
@@ -85,6 +86,7 @@ function ResizableSplit({ left, right }: { left: React.ReactNode; right: React.R
 
 export function Editor({ presets }: EditorProps) {
   const { loadFromShare } = useEditorStore()
+  const t = useTranslations("editor")
 
   // Restore theme from URL hash on mount
   useEffect(() => {
@@ -97,9 +99,9 @@ export function Editor({ presets }: EditorProps) {
   const leftContent = (
     <Tabs defaultValue="presets" className="flex flex-col h-full">
       <TabsList className="mx-3 mt-2 shrink-0">
-        <TabsTrigger value="presets">预设</TabsTrigger>
-        <TabsTrigger value="edit">编辑</TabsTrigger>
-        <TabsTrigger value="code">导出</TabsTrigger>
+        <TabsTrigger value="presets">{t("presets")}</TabsTrigger>
+        <TabsTrigger value="edit">{t("edit")}</TabsTrigger>
+        <TabsTrigger value="code">{t("export")}</TabsTrigger>
       </TabsList>
       <TabsContent value="presets" className="flex-1 overflow-hidden mt-0">
         <PresetPanel presets={presets} />
@@ -126,10 +128,10 @@ export function Editor({ presets }: EditorProps) {
       <div className="flex md:hidden flex-1 overflow-hidden">
         <Tabs defaultValue="preview" className="flex flex-col w-full h-full">
           <TabsList className="mx-3 mt-2 shrink-0 grid grid-cols-4">
-            <TabsTrigger value="presets">预设</TabsTrigger>
-            <TabsTrigger value="edit">编辑</TabsTrigger>
-            <TabsTrigger value="preview">预览</TabsTrigger>
-            <TabsTrigger value="code">导出</TabsTrigger>
+            <TabsTrigger value="presets">{t("presets")}</TabsTrigger>
+            <TabsTrigger value="edit">{t("edit")}</TabsTrigger>
+            <TabsTrigger value="preview">{t("preview")}</TabsTrigger>
+            <TabsTrigger value="code">{t("export")}</TabsTrigger>
           </TabsList>
           <TabsContent value="presets" className="flex-1 overflow-hidden mt-0">
             <PresetPanel presets={presets} />

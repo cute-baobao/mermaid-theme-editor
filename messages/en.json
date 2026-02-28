@@ -1,0 +1,99 @@
+{
+  "toolbar": {
+    "title": "Mermaid Theme Editor",
+    "undo": "Undo (Ctrl+Z)",
+    "redo": "Redo (Ctrl+Y)",
+    "reset": "Reset to preset",
+    "share": "Copy share link",
+    "shareSuccess": "Link copied to clipboard!",
+    "sharePrompt": "Copy this link to share your theme:",
+    "switchToDark": "Switch to dark mode",
+    "switchToLight": "Switch to light mode",
+    "lightMode": "Light",
+    "darkMode": "Dark"
+  },
+  "preset": {
+    "searchPlaceholder": "Search presets...",
+    "builtIn": "Built-in Themes",
+    "community": "Community Themes",
+    "noResults": "No matching themes found",
+    "contribute": "Submit your theme →",
+    "current": "Active",
+    "random": "Random"
+  },
+  "control": {
+    "showAdvanced": "Show advanced properties",
+    "groups": {
+      "core": "Core Colors",
+      "text-lines": "Text & Lines",
+      "typography": "Typography",
+      "notes": "Notes",
+      "flowchart": "Flowchart",
+      "sequence": "Sequence"
+    },
+    "props": {
+      "background": "Background",
+      "primaryColor": "Primary Color",
+      "secondaryColor": "Secondary Color",
+      "tertiaryColor": "Tertiary Color",
+      "primaryTextColor": "Primary Text",
+      "textColor": "Label Text",
+      "lineColor": "Line Color",
+      "secondaryTextColor": "Secondary Text",
+      "tertiaryTextColor": "Tertiary Text",
+      "fontFamily": "Font Family",
+      "fontSize": "Font Size",
+      "noteBkgColor": "Note Background",
+      "noteTextColor": "Note Text",
+      "noteBorderColor": "Note Border",
+      "clusterBkg": "Cluster Background",
+      "clusterBorder": "Cluster Border",
+      "edgeLabelBackground": "Edge Label Bg",
+      "titleColor": "Title Color",
+      "nodeBorder": "Node Border",
+      "nodeTextColor": "Node Text",
+      "actorBkg": "Actor Background",
+      "actorBorder": "Actor Border",
+      "actorTextColor": "Actor Text",
+      "signalColor": "Signal Color",
+      "activationBkgColor": "Activation Background",
+      "sequenceNumberColor": "Sequence Number"
+    }
+  },
+  "code": {
+    "jsInit": "JS Init",
+    "frontmatter": "Frontmatter",
+    "json": "JSON",
+    "jsInitDesc": "For mermaid.initialize() calls",
+    "frontmatterDesc": "For .mmd file frontmatter",
+    "jsonDesc": "JSON config (import/export)",
+    "copy": "Copy",
+    "copied": "Copied"
+  },
+  "preview": {
+    "hint": "Scroll to zoom · Drag to pan",
+    "rendering": "Rendering...",
+    "zoomIn": "Zoom in",
+    "zoomOut": "Zoom out",
+    "resetView": "Reset view",
+    "fullscreen": "Fullscreen",
+    "exitFullscreen": "Exit fullscreen",
+    "exportPng": "PNG",
+    "diagrams": {
+      "flowchart": "Flowchart",
+      "sequence": "Sequence",
+      "class": "Class Diagram",
+      "gantt": "Gantt",
+      "pie": "Pie Chart"
+    }
+  },
+  "editor": {
+    "presets": "Presets",
+    "edit": "Edit",
+    "export": "Export",
+    "preview": "Preview"
+  },
+  "common": {
+    "loading": "Loading..."
+  }
+}

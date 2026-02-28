@@ -1,11 +1,12 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from "next"
+import createNextIntlPlugin from "next-intl/plugin"
+
+const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts")
 
 const nextConfig: NextConfig = {
-  // Ensure community preset JSON files are included in server bundle tracing
-  // This allows fs.readdir to find them when deployed on Vercel
   outputFileTracingIncludes: {
     "/": ["./src/data/community-presets/*.json"],
   },
-};
+}
 
-export default nextConfig;
+export default withNextIntl(nextConfig)

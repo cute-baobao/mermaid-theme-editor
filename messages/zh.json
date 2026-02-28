@@ -1,0 +1,99 @@
+{
+  "toolbar": {
+    "title": "Mermaid 主题编辑器",
+    "undo": "撤销 (Ctrl+Z)",
+    "redo": "重做 (Ctrl+Y)",
+    "reset": "重置到当前预设",
+    "share": "复制分享链接",
+    "shareSuccess": "链接已复制到剪贴板！",
+    "sharePrompt": "复制以下链接分享你的主题：",
+    "switchToDark": "切换到暗色模式",
+    "switchToLight": "切换到亮色模式",
+    "lightMode": "亮色",
+    "darkMode": "暗色"
+  },
+  "preset": {
+    "searchPlaceholder": "搜索预设...",
+    "builtIn": "内置主题",
+    "community": "社区主题",
+    "noResults": "没有找到匹配的主题",
+    "contribute": "提交你的主题 →",
+    "current": "当前",
+    "random": "随机"
+  },
+  "control": {
+    "showAdvanced": "显示高级属性",
+    "groups": {
+      "core": "核心颜色",
+      "text-lines": "文字与线条",
+      "typography": "字体",
+      "notes": "备注样式",
+      "flowchart": "流程图",
+      "sequence": "时序图"
+    },
+    "props": {
+      "background": "背景色",
+      "primaryColor": "主色",
+      "secondaryColor": "次要色",
+      "tertiaryColor": "第三色",
+      "primaryTextColor": "主要文字色",
+      "textColor": "标签文字色",
+      "lineColor": "连接线颜色",
+      "secondaryTextColor": "次要文字色",
+      "tertiaryTextColor": "第三文字色",
+      "fontFamily": "字体族",
+      "fontSize": "字号",
+      "noteBkgColor": "备注背景色",
+      "noteTextColor": "备注文字色",
+      "noteBorderColor": "备注边框色",
+      "clusterBkg": "子图背景色",
+      "clusterBorder": "子图边框色",
+      "edgeLabelBackground": "边标签背景色",
+      "titleColor": "标题颜色",
+      "nodeBorder": "节点边框色",
+      "nodeTextColor": "节点文字色",
+      "actorBkg": "Actor 背景色",
+      "actorBorder": "Actor 边框色",
+      "actorTextColor": "Actor 文字色",
+      "signalColor": "信号线颜色",
+      "activationBkgColor": "激活框背景色",
+      "sequenceNumberColor": "序号颜色"
+    }
+  },
+  "code": {
+    "jsInit": "JS 初始化",
+    "frontmatter": "Frontmatter",
+    "json": "JSON",
+    "jsInitDesc": "用于 mermaid.initialize() 调用",
+    "frontmatterDesc": "用于 .mmd 文件头部 frontmatter",
+    "jsonDesc": "JSON 格式配置（可导入/导出）",
+    "copy": "复制",
+    "copied": "已复制"
+  },
+  "preview": {
+    "hint": "滚轮缩放 · 拖拽平移",
+    "rendering": "渲染中...",
+    "zoomIn": "放大",
+    "zoomOut": "缩小",
+    "resetView": "重置视图",
+    "fullscreen": "全屏",
+    "exitFullscreen": "退出全屏",
+    "exportPng": "PNG",
+    "diagrams": {
+      "flowchart": "流程图",
+      "sequence": "时序图",
+      "class": "类图",
+      "gantt": "甘特图",
+      "pie": "饼图"
+    }
+  },
+  "editor": {
+    "presets": "预设",
+    "edit": "编辑",
+    "export": "导出",
+    "preview": "预览"
+  },
+  "common": {
+    "loading": "加载中..."
+  }
+}

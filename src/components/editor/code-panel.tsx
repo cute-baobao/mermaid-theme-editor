@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { Copy, Check } from "lucide-react"
+import { useTranslations } from "next-intl"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
@@ -15,6 +16,7 @@ import {
 export function CodePanel() {
   const [copied, setCopied] = useState<string | null>(null)
   const { getCurrentTheme, mode } = useEditorStore()
+  const t = useTranslations("code")
 
   const theme = getCurrentTheme()
   const darkMode = mode === "dark"
@@ -35,23 +37,25 @@ export function CodePanel() {
     }
   }
 
+  const tabDesc: Record<string, string> = {
+    init: t("jsInitDesc"),
+    frontmatter: t("frontmatterDesc"),
+    json: t("jsonDesc"),
+  }
+
   return (
     <div className="flex flex-col h-full">
       <Tabs defaultValue="init" className="flex flex-col h-full">
         <TabsList className="mx-3 mt-2 shrink-0 grid grid-cols-3">
-          <TabsTrigger value="init" className="text-xs">JS 初始化</TabsTrigger>
-          <TabsTrigger value="frontmatter" className="text-xs">Frontmatter</TabsTrigger>
-          <TabsTrigger value="json" className="text-xs">JSON</TabsTrigger>
+          <TabsTrigger value="init" className="text-xs">{t("jsInit")}</TabsTrigger>
+          <TabsTrigger value="frontmatter" className="text-xs">{t("frontmatter")}</TabsTrigger>
+          <TabsTrigger value="json" className="text-xs">{t("json")}</TabsTrigger>
         </TabsList>
 
         {(["init", "frontmatter", "json"] as const).map((key) => (
           <TabsContent key={key} value={key} className="flex-1 overflow-hidden mt-0 flex flex-col">
             <div className="flex items-center justify-between px-3 py-2 border-b shrink-0">
-              <p className="text-xs text-muted-foreground">
-                {key === "init" && "用于 mermaid.initialize() 调用"}
-                {key === "frontmatter" && "用于 .mmd 文件头部 frontmatter"}
-                {key === "json" && "JSON 格式配置（可导入/导出）"}
-              </p>
+              <p className="text-xs text-muted-foreground">{tabDesc[key]}</p>
               <Button
                 variant="ghost"
                 size="sm"
@@ -61,12 +65,12 @@ export function CodePanel() {
                 {copied === key ? (
                   <>
                     <Check className="size-3 mr-1 text-green-500" />
-                    已复制
+                    {t("copied")}
                   </>
                 ) : (
                   <>
                     <Copy className="size-3 mr-1" />
-                    复制
+                    {t("copy")}
                   </>
                 )}
               </Button>

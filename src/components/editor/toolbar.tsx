@@ -1,12 +1,14 @@
 "use client"
 
-import { useCallback } from "react"
-import { Undo2, Redo2, RotateCcw, Share2, Sun, Moon, Palette } from "lucide-react"
+import { useCallback, useTransition } from "react"
+import { Undo2, Redo2, RotateCcw, Share2, Sun, Moon, Palette, Languages } from "lucide-react"
+import { useTranslations, useLocale } from "next-intl"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 import { useEditorStore } from "@/store/editor-store"
 import { buildShareUrl } from "@/lib/share-url"
+import { setLocale } from "@/actions/locale"
 
 export function Toolbar() {
   const {
@@ -21,6 +23,10 @@ export function Toolbar() {
     darkTheme,
   } = useEditorStore()
 
+  const t = useTranslations("toolbar")
+  const locale = useLocale()
+  const [isPending, startTransition] = useTransition()
+
   const canUndo = historyIndex > 0
   const canRedo = historyIndex < history.length - 1
 
@@ -28,19 +34,25 @@ export function Toolbar() {
     const url = buildShareUrl({ light: lightTheme, dark: darkTheme, mode })
     try {
       await navigator.clipboard.writeText(url)
-      // Simple feedback - could use toast library
-      alert("分享链接已复制到剪贴板！")
+      alert(t("shareSuccess"))
     } catch {
-      prompt("复制以下链接分享你的主题：", url)
+      prompt(t("sharePrompt"), url)
     }
-  }, [lightTheme, darkTheme, mode])
+  }, [lightTheme, darkTheme, mode, t])
+
+  const handleLocaleSwitch = () => {
+    const next = locale === "zh" ? "en" : "zh"
+    startTransition(() => {
+      setLocale(next)
+    })
+  }
 
   return (
     <header className="flex items-center gap-2 px-4 py-2 border-b bg-background shrink-0">
       {/* Logo */}
       <div className="flex items-center gap-2 mr-2">
         <Palette className="size-5 text-primary" />
-        <span className="font-semibold text-sm hidden sm:block">Mermaid Theme Editor</span>
+        <span className="font-semibold text-sm hidden sm:block">{t("title")}</span>
       </div>
 
       <Separator orientation="vertical" className="h-5" />
@@ -48,47 +60,30 @@ export function Toolbar() {
       {/* Undo / Redo */}
       <Tooltip>
         <TooltipTrigger asChild>
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={undo}
-            disabled={!canUndo}
-            className="size-8"
-          >
+          <Button variant="ghost" size="icon" onClick={undo} disabled={!canUndo} className="size-8">
             <Undo2 className="size-4" />
           </Button>
         </TooltipTrigger>
-        <TooltipContent>撤销 (Ctrl+Z)</TooltipContent>
+        <TooltipContent>{t("undo")}</TooltipContent>
       </Tooltip>
 
       <Tooltip>
         <TooltipTrigger asChild>
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={redo}
-            disabled={!canRedo}
-            className="size-8"
-          >
+          <Button variant="ghost" size="icon" onClick={redo} disabled={!canRedo} className="size-8">
             <Redo2 className="size-4" />
           </Button>
         </TooltipTrigger>
-        <TooltipContent>重做 (Ctrl+Y)</TooltipContent>
+        <TooltipContent>{t("redo")}</TooltipContent>
       </Tooltip>
 
       {/* Reset */}
       <Tooltip>
         <TooltipTrigger asChild>
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={resetToCheckpoint}
-            className="size-8"
-          >
+          <Button variant="ghost" size="icon" onClick={resetToCheckpoint} className="size-8">
             <RotateCcw className="size-4" />
           </Button>
         </TooltipTrigger>
-        <TooltipContent>重置到当前预设</TooltipContent>
+        <TooltipContent>{t("reset")}</TooltipContent>
       </Tooltip>
 
       <Separator orientation="vertical" className="h-5" />
@@ -96,47 +91,48 @@ export function Toolbar() {
       {/* Light/Dark toggle */}
       <Tooltip>
         <TooltipTrigger asChild>
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={toggleMode}
-            className="size-8"
-          >
-            {mode === "light" ? (
-              <Sun className="size-4" />
-            ) : (
-              <Moon className="size-4" />
-            )}
+          <Button variant="ghost" size="icon" onClick={toggleMode} className="size-8">
+            {mode === "light" ? <Sun className="size-4" /> : <Moon className="size-4" />}
           </Button>
         </TooltipTrigger>
         <TooltipContent>
-          切换到{mode === "light" ? "暗色" : "亮色"}模式
+          {mode === "light" ? t("switchToDark") : t("switchToLight")}
         </TooltipContent>
       </Tooltip>
 
       {/* Share */}
       <Tooltip>
         <TooltipTrigger asChild>
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={handleShare}
-            className="size-8"
-          >
+          <Button variant="ghost" size="icon" onClick={handleShare} className="size-8">
             <Share2 className="size-4" />
           </Button>
         </TooltipTrigger>
-        <TooltipContent>复制分享链接</TooltipContent>
+        <TooltipContent>{t("share")}</TooltipContent>
+      </Tooltip>
+
+      {/* Language switcher */}
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={handleLocaleSwitch}
+            disabled={isPending}
+            className="h-8 px-2 text-xs font-medium gap-1"
+          >
+            <Languages className="size-3.5" />
+            {locale === "zh" ? "EN" : "中文"}
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent>{locale === "zh" ? "Switch to English" : "切换中文"}</TooltipContent>
       </Tooltip>
 
       {/* Mode indicator */}
       <div className="ml-auto flex items-center gap-1.5 text-xs text-muted-foreground">
         <div
-          className={`size-2 rounded-full ${
-            mode === "light" ? "bg-yellow-400" : "bg-blue-400"
-          }`}
+          className={`size-2 rounded-full ${mode === "light" ? "bg-yellow-400" : "bg-blue-400"}`}
         />
-        {mode === "light" ? "亮色模式" : "暗色模式"}
+        {mode === "light" ? t("lightMode") : t("darkMode")}
       </div>
     </header>
   )
