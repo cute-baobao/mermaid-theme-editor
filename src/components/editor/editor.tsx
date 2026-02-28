@@ -1,12 +1,7 @@
 "use client"
 
 import dynamic from "next/dynamic"
-import { useEffect } from "react"
-import {
-  ResizablePanelGroup,
-  ResizablePanel,
-  ResizableHandle,
-} from "@/components/ui/resizable"
+import { useEffect, useRef, useState, useCallback } from "react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useEditorStore } from "@/store/editor-store"
 import { parseThemeFromHash } from "@/lib/share-url"
@@ -23,6 +18,71 @@ interface EditorProps {
   presets: ThemePreset[]
 }
 
+/** Custom resizable split pane — avoids react-resizable-panels v4 quirks */
+function ResizableSplit({ left, right }: { left: React.ReactNode; right: React.ReactNode }) {
+  const [leftPct, setLeftPct] = useState(35)
+  const containerRef = useRef<HTMLDivElement>(null)
+  const dragging = useRef(false)
+
+  const onMouseDown = useCallback((e: React.MouseEvent) => {
+    e.preventDefault()
+    dragging.current = true
+    document.body.style.cursor = "col-resize"
+    document.body.style.userSelect = "none"
+  }, [])
+
+  useEffect(() => {
+    const onMouseMove = (e: MouseEvent) => {
+      if (!dragging.current || !containerRef.current) return
+      const rect = containerRef.current.getBoundingClientRect()
+      const newPct = ((e.clientX - rect.left) / rect.width) * 100
+      setLeftPct(Math.min(Math.max(newPct, 20), 70))
+    }
+    const onMouseUp = () => {
+      if (!dragging.current) return
+      dragging.current = false
+      document.body.style.cursor = ""
+      document.body.style.userSelect = ""
+    }
+    document.addEventListener("mousemove", onMouseMove)
+    document.addEventListener("mouseup", onMouseUp)
+    return () => {
+      document.removeEventListener("mousemove", onMouseMove)
+      document.removeEventListener("mouseup", onMouseUp)
+    }
+  }, [])
+
+  return (
+    <div ref={containerRef} className="flex flex-1 overflow-hidden h-full w-full">
+      {/* Left panel */}
+      <div
+        className="flex flex-col overflow-hidden shrink-0"
+        style={{ width: `${leftPct}%` }}
+      >
+        {left}
+      </div>
+
+      {/* Drag handle */}
+      <div
+        className="relative flex items-center justify-center w-1.5 shrink-0 cursor-col-resize bg-border hover:bg-primary/30 active:bg-primary/50 transition-colors z-10 group"
+        onMouseDown={onMouseDown}
+      >
+        {/* Visual grip dots */}
+        <div className="flex flex-col gap-0.5 pointer-events-none">
+          {[...Array(5)].map((_, i) => (
+            <div key={i} className="w-0.5 h-0.5 rounded-full bg-muted-foreground/50 group-hover:bg-primary/70 transition-colors" />
+          ))}
+        </div>
+      </div>
+
+      {/* Right panel */}
+      <div className="flex flex-col overflow-hidden flex-1">
+        {right}
+      </div>
+    </div>
+  )
+}
+
 export function Editor({ presets }: EditorProps) {
   const { loadFromShare } = useEditorStore()
 
@@ -34,42 +94,32 @@ export function Editor({ presets }: EditorProps) {
     }
   }, [loadFromShare])
 
+  const leftContent = (
+    <Tabs defaultValue="presets" className="flex flex-col h-full">
+      <TabsList className="mx-3 mt-2 shrink-0">
+        <TabsTrigger value="presets">预设</TabsTrigger>
+        <TabsTrigger value="edit">编辑</TabsTrigger>
+        <TabsTrigger value="code">导出</TabsTrigger>
+      </TabsList>
+      <TabsContent value="presets" className="flex-1 overflow-hidden mt-0">
+        <PresetPanel presets={presets} />
+      </TabsContent>
+      <TabsContent value="edit" className="flex-1 overflow-hidden mt-0">
+        <ThemeControlPanel />
+      </TabsContent>
+      <TabsContent value="code" className="flex-1 overflow-hidden mt-0">
+        <CodePanel />
+      </TabsContent>
+    </Tabs>
+  )
+
   return (
     <div className="flex flex-col h-screen overflow-hidden bg-background">
       <Toolbar />
 
-      {/* Desktop: resizable left/right panels */}
+      {/* Desktop: custom resizable split pane */}
       <div className="hidden md:flex flex-1 overflow-hidden">
-        <ResizablePanelGroup orientation="horizontal" className="flex-1">
-          {/* Left: control panels */}
-          <ResizablePanel defaultSize={35} minSize={25} maxSize={55}>
-            <div className="flex flex-col h-full overflow-hidden">
-              <Tabs defaultValue="presets" className="flex flex-col h-full">
-                <TabsList className="mx-3 mt-2 shrink-0">
-                  <TabsTrigger value="presets">预设</TabsTrigger>
-                  <TabsTrigger value="edit">编辑</TabsTrigger>
-                  <TabsTrigger value="code">导出</TabsTrigger>
-                </TabsList>
-                <TabsContent value="presets" className="flex-1 overflow-hidden mt-0">
-                  <PresetPanel presets={presets} />
-                </TabsContent>
-                <TabsContent value="edit" className="flex-1 overflow-hidden mt-0">
-                  <ThemeControlPanel />
-                </TabsContent>
-                <TabsContent value="code" className="flex-1 overflow-hidden mt-0">
-                  <CodePanel />
-                </TabsContent>
-              </Tabs>
-            </div>
-          </ResizablePanel>
-
-          <ResizableHandle withHandle />
-
-          {/* Right: preview */}
-          <ResizablePanel defaultSize={65} minSize={40}>
-            <ThemePreviewPanel />
-          </ResizablePanel>
-        </ResizablePanelGroup>
+        <ResizableSplit left={leftContent} right={<ThemePreviewPanel />} />
       </div>
 
       {/* Mobile: tab-based navigation */}

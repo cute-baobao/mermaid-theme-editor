@@ -150,10 +150,16 @@ function MermaidPreview({
     )
   }
 
+  // Constrain SVG width and disable pointer-events so it never blocks the drag handle
+  const processedSvg = svg.replace(
+    /<svg /,
+    '<svg style="max-width:100%;height:auto;pointer-events:none;" '
+  )
+
   return (
     <div
       className="flex items-center justify-center w-full h-full p-4 overflow-auto"
-      dangerouslySetInnerHTML={{ __html: svg }}
+      dangerouslySetInnerHTML={{ __html: processedSvg }}
     />
   )
 }
